@@ -28,10 +28,17 @@
     transition: all 0.1s;
   }
 
-  .key:active {
+  .key.active {
+    background: #00d2ff;
+    color: #000;
     transform: translateY(2px);
     box-shadow: 0 1px 0 #000;
-    background: #e94560;
+  }
+
+  .key.expected {
+    background: #7b2ff7;
+    color: #fff;
+    box-shadow: 0 0 10px #7b2ff7;
   }
 
   .wide {

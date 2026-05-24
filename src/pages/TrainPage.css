@@ -34,3 +34,72 @@
   .typing-area:focus {
     box-shadow: 0 0 5px #00d2ff;
   }
+  .stats-bar {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+  }
+
+  .highlighted-text {
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    background: #16213e;
+    padding: 1rem;
+    border-radius: 8px;
+    user-select: none;
+  }
+
+  .char {
+    color: #666;
+  }
+  .char.correct {
+    color: #4caf50;
+  }
+  .char.incorrect {
+    color: #e94560;
+    background: rgba(233, 69, 96, 0.2);
+  }
+  .char.current {
+    color: #fff;
+    border-bottom: 2px solid #00d2ff;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { border-color: #00d2ff; }
+    50% { border-color: transparent; }
+  }
+
+  .typing-area-hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .reset-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    background: #0f3460;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .reset-btn:hover {
+    background: #e94560;
+  }
+
+  .result-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2rem;
+  }

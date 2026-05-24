@@ -1,5 +1,10 @@
 import './Keyboard.css';
 
+interface KeyboardProps {
+  activeKey: string | null;
+  expectedKey: string | null;
+}
+
 const rows = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
   ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
@@ -8,19 +13,24 @@ const rows = [
   ['Ctrl', 'Alt', 'Space', 'Alt', 'Ctrl'],
 ];
 
-const Keyboard = () => {
+const Keyboard: React.FC<KeyboardProps> = ({ activeKey, expectedKey }) => {
   return (
     <div className="keyboard">
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="keyboard-row">
-          {row.map((key) => (
-            <div
-              key={key}
-              className={`key ${key.length > 1 ? 'wide' : ''}`}
-            >
-              {key}
-            </div>
-          ))}
+          {row.map((key) => {
+            const isActive = activeKey?.toLowerCase() === key.toLowerCase();
+            const isExpected = expectedKey?.toLowerCase() === key.toLowerCase();
+            let className = 'key';
+            if (key.length > 1) className += ' wide';
+            if (isActive) className += ' active';
+            if (isExpected && !isActive) className += ' expected';
+            return (
+              <div key={key} className={className}>
+                {key === 'Space' ? '␣' : key}
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>
