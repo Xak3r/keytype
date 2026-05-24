@@ -1,0 +1,36 @@
+.train-page {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .text-display {
+    background: #16213e;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .text-to-type {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #ccc;
+    margin-bottom: 1rem;
+  }
+
+  .typing-area {
+    width: 100%;
+    background: #0f3460;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 0.8rem;
+    border-radius: 6px;
+    resize: none;
+    outline: none;
+  }
+
+  .typing-area:focus {
+    box-shadow: 0 0 5px #00d2ff;
+  }

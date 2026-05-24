@@ -1,10 +1,23 @@
-const TrainPage = () => {
-    return (
-      <div>
-        <h1>Тренировка</h1>
-        <p>Здесь будет уроки и свободная печать</p>
-      </div>
-    );
-  };
+import Keyboard from '../components/Keyboard';
+import './TrainPage.css';
 
-  export default TrainPage;
+const TrainPage = () => {
+  return (
+    <div className="train-page">
+      <h1>Тренировка слепой печати</h1>
+      <div className="text-display">
+        <p className="text-to-type">
+          The quick brown fox jumps over the lazy dog.
+        </p>
+        <textarea
+          className="typing-area"
+          placeholder="Начните печатать здесь..."
+          rows={3}
+        />
+      </div>
+      <Keyboard />
+    </div>
+  );
+};
+
+export default TrainPage;
