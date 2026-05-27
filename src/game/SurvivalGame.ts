@@ -45,8 +45,8 @@ const INITIAL_LIVES = 3;
 const BASE_SPEED = 30;
 const TARGET_SPEED = 60;            // к 3 минутам
 const BASE_SPAWN_PROB = 0.0013;
-const TARGET_SPAWN_PROB = 0.002;
-const SPEED_RAMP_TIME = 360;
+const TARGET_SPAWN_PROB = 0.0022;
+const SPEED_RAMP_TIME = 240;
 const SPAWN_RAMP_TIME = 180;
 
 //const GAME_DURATION_TARGET = 180;   // 3 минуты в секундах
