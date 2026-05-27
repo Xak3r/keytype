@@ -1,10 +1,9 @@
 .app {
-
-  background: #1a1a2e;
-  color: #eee;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 960px;       /* ограничим максимальную ширину контента */
+  padding: 0 20px;        /* небольшие отступы по бокам */
 }
 
 .nav {

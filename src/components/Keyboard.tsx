@@ -18,7 +18,7 @@ const Keyboard: React.FC<KeyboardProps> = ({ activeKey, expectedKey }) => {
     <div className="keyboard">
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="keyboard-row">
-          {row.map((key) => {
+          {row.map((key, keyIndex) => {
             const isActive = activeKey?.toLowerCase() === key.toLowerCase();
             const isExpected = expectedKey?.toLowerCase() === key.toLowerCase();
             let className = 'key';
@@ -26,7 +26,7 @@ const Keyboard: React.FC<KeyboardProps> = ({ activeKey, expectedKey }) => {
             if (isActive) className += ' active';
             if (isExpected && !isActive) className += ' expected';
             return (
-              <div key={key} className={className}>
+              <div key={`${rowIndex}-${key}-${keyIndex}`} className={className}>
                 {key === 'Space' ? '␣' : key}
               </div>
             );

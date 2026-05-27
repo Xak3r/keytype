@@ -29,17 +29,17 @@ const KeyboardHeatmap: React.FC<KeyboardHeatmapProps> = ({ errorKeys }) => {
     <div className="keyboard-heatmap">
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="keyboard-row">
-          {row.map((key) => {
+          {row.map((key, keyIndex) => {
             const count = errorKeys[key.toLowerCase()] || 0;
             const bgColor = getHeatColor(count, maxErrors);
             return (
               <div
-                key={key}
+                key={`${rowIndex}-${key}-${keyIndex}`}
                 className="key heatmap-key"
                 style={{ backgroundColor: bgColor }}
                 title={`${key}: ${count} ошибок`}
               >
-                {key === 'Space' ? '␣' : key}
+              {key === 'Space' ? '␣' : key}
               </div>
             );
           })}

@@ -1,5 +1,5 @@
 .keyboard {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   gap: 6px;
   margin: 20px 0;
@@ -7,44 +7,41 @@
   padding: 16px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  width: fit-content;      /* ← добавить */
-  max-width: 100%;         /* ← на всякий случай */
-  overflow: hidden;        /* ← чтобы ничего не торчало */
   box-sizing: border-box;
 }
 
-  .keyboard-row {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-  }
+.keyboard-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
 
-  .key {
-    background: #0f3460;
-    color: #e0e0e0;
-    padding: 12px 16px;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: bold;
-    min-width: 40px;
-    text-align: center;
-    box-shadow: 0 2px 0 #000;
-    transition: all 0.1s;
-  }
+.key {
+  background: #0f3460;
+  color: #e0e0e0;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  min-width: 30px;        /* немного уменьшим */
+  text-align: center;
+  box-shadow: 0 2px 0 #000;
+  transition: all 0.1s;
+}
 
-  .key.active {
-    background: #00d2ff;
-    color: #000;
-    transform: translateY(2px);
-    box-shadow: 0 1px 0 #000;
-  }
+.wide {
+  min-width: 50px;
+}
 
-  .key.expected {
-    background: #7b2ff7;
-    color: #fff;
-    box-shadow: 0 0 10px #7b2ff7;
-  }
+.key.active {
+  background: #00d2ff !important;  /* голубая подсветка нажатой клавиши */
+  color: #000;
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #000;
+}
 
-  .wide {
-    min-width: 60px;
-  }
+.key.expected {
+  background: #7b2ff7 !important;  /* фиолетовая подсветка ожидаемой клавиши */
+  color: #fff;
+  box-shadow: 0 0 10px #7b2ff7;
+}

@@ -1,4 +1,3 @@
-// src/pages/SurvivalPage.tsx
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { SurvivalGame } from '../game/SurvivalGame';
 import { db, TypingResult } from '../utils/db';
@@ -9,47 +8,55 @@ const SurvivalPage = () => {
   const gameRef = useRef<SurvivalGame | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
-  const [gameKey, setGameKey] = useState(0); // для пересоздания игры
+  const [gameKey, setGameKey] = useState(0);
 
-  const startGame = useCallback(() => {
+  const startGame = useCallback(async () => {
     if (!containerRef.current) return;
 
-    // Уничтожаем предыдущую игру, если была
-    gameRef.current?.destroy();
-    gameRef.current = null;
+    // Уничтожаем предыдущую игру
+    if (gameRef.current) {
+      gameRef.current.destroy();
+      gameRef.current = null;
+    }
 
     setGameOver(false);
     setFinalScore(0);
+
+    // Очищаем контейнер на всякий случай
+    containerRef.current.innerHTML = '';
 
     const game = new SurvivalGame({
       container: containerRef.current,
       onGameOver: (score) => {
         setGameOver(true);
         setFinalScore(score);
-        // Сохраняем результат
         const result: TypingResult = {
           date: new Date(),
           mode: 'survival',
-          wpm: 0,           // в этом режиме WPM не считаем
-          accuracy: 100,    // точность не приоритетна
-          duration: 0,      // можно засечь время игры, но для упрощения не будем
+          wpm: 0,
+          accuracy: 100,
+          duration: 0,
         };
         db.results.add(result).catch(console.error);
       },
     });
 
     gameRef.current = game;
+    await game.initialize();
   }, []);
 
   useEffect(() => {
     startGame();
     return () => {
-      gameRef.current?.destroy();
+      if (gameRef.current) {
+        gameRef.current.destroy();
+        gameRef.current = null;
+      }
     };
   }, [gameKey, startGame]);
 
   const handleRestart = () => {
-    setGameKey((prev) => prev + 1); // триггер пересоздания
+    setGameKey((prev) => prev + 1);
   };
 
   return (

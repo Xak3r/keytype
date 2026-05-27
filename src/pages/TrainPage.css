@@ -1,8 +1,10 @@
 .train-page {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* центрирует всё содержимое, включая клавиатуру */
+  width: 100%;
+  /* max-width: none не нужен, родительский .main-content уже flex с align-items:center */
+}
 
   .text-display {
     background: #16213e;
