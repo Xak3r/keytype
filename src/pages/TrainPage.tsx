@@ -5,7 +5,6 @@ import './TrainPage.css';
 
 const sampleText = "The quick brown fox jumps over the lazy dog.";
 
-// Чистая функция вычисления метрик
 function computeMetrics(
   input: string,
   startTime: number | null,
@@ -16,6 +15,7 @@ function computeMetrics(
   }
   const now = Date.now();
   const elapsedMinutes = (now - startTime) / 60000;
+  // Считаем слова по пробелам
   const wordsTyped = input.trim().split(/\s+/).length;
   const currentWpm = elapsedMinutes > 0 ? Math.round(wordsTyped / elapsedMinutes) : 0;
 
@@ -35,8 +35,9 @@ const TrainPage = () => {
   const [wpm, setWpm] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
   const startTimeRef = useRef<number | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Сброс всего состояния
+  // Сброс
   const handleReset = useCallback(() => {
     setInputText('');
     setActiveKey(null);
@@ -44,19 +45,39 @@ const TrainPage = () => {
     setWpm(0);
     setAccuracy(100);
     startTimeRef.current = null;
+    if (intervalRef.current) clearInterval(intervalRef.current);
   }, []);
 
-  // Фиксация результата и завершение
-  // src/pages/TrainPage.tsx
+  // Функция обновления метрик (будет вызываться и по таймеру, и при завершении)
+  const updateMetrics = useCallback(() => {
+    if (isFinished) return;
+    const metrics = computeMetrics(inputText, startTimeRef.current, targetText);
+    setWpm(metrics.wpm);
+    setAccuracy(metrics.accuracy);
+  }, [inputText, targetText, isFinished]);
+
+  // Запускаем интервал для обновления метрик
+  useEffect(() => {
+    if (isFinished) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      return;
+    }
+    intervalRef.current = setInterval(updateMetrics, 500);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isFinished, updateMetrics]);
+
+  // Завершение упражнения
   const finish = useCallback(
     (finalInput: string) => {
       if (isFinished) return;
+      if (intervalRef.current) clearInterval(intervalRef.current);
       const duration = startTimeRef.current
         ? Math.round((Date.now() - startTimeRef.current) / 1000)
         : 0;
       const metrics = computeMetrics(finalInput, startTimeRef.current, targetText);
 
-    //   Сбор ошибок по клавишам
       const errorKeys: Record<string, number> = {};
       for (let i = 0; i < finalInput.length; i++) {
         if (finalInput[i] !== targetText[i]) {
@@ -91,10 +112,7 @@ const TrainPage = () => {
         const newInput = inputText.slice(0, -1);
         if (newInput === inputText) return;
         if (newInput.length === 0) startTimeRef.current = null;
-        const metrics = computeMetrics(newInput, startTimeRef.current, targetText);
         setInputText(newInput);
-        setWpm(metrics.wpm);
-        setAccuracy(metrics.accuracy);
         return;
       }
 
@@ -102,10 +120,7 @@ const TrainPage = () => {
         e.preventDefault();
         const newInput = inputText + e.key;
         if (!startTimeRef.current) startTimeRef.current = Date.now();
-        const metrics = computeMetrics(newInput, startTimeRef.current, targetText);
         setInputText(newInput);
-        setWpm(metrics.wpm);
-        setAccuracy(metrics.accuracy);
         if (newInput.length >= targetText.length) {
           finish(newInput);
         }
@@ -118,7 +133,6 @@ const TrainPage = () => {
     setActiveKey(null);
   }, []);
 
-  // Подписка на клавиатурные события
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
@@ -128,10 +142,16 @@ const TrainPage = () => {
     };
   }, [handleKeyDown, handleKeyUp]);
 
+  // Очистка интервала при размонтировании
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
+
   const expectedChar =
     inputText.length < targetText.length ? targetText[inputText.length] : null;
 
-  // Подсветка текста
   const renderHighlightedText = () =>
     targetText.split('').map((char, index) => {
       let className = 'char';

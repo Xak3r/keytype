@@ -1,13 +1,17 @@
 .keyboard {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin: 20px 0;
-    background: #16213e;
-    padding: 16px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 20px 0;
+  background: #16213e;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  width: fit-content;      /* ← добавить */
+  max-width: 100%;         /* ← на всякий случай */
+  overflow: hidden;        /* ← чтобы ничего не торчало */
+  box-sizing: border-box;
+}
 
   .keyboard-row {
     display: flex;
