@@ -47,6 +47,7 @@ const TrainPage = () => {
   }, []);
 
   // Фиксация результата и завершение
+  // src/pages/TrainPage.tsx
   const finish = useCallback(
     (finalInput: string) => {
       if (isFinished) return;
@@ -54,12 +55,23 @@ const TrainPage = () => {
         ? Math.round((Date.now() - startTimeRef.current) / 1000)
         : 0;
       const metrics = computeMetrics(finalInput, startTimeRef.current, targetText);
+
+    //   Сбор ошибок по клавишам
+      const errorKeys: Record<string, number> = {};
+      for (let i = 0; i < finalInput.length; i++) {
+        if (finalInput[i] !== targetText[i]) {
+          const key = targetText[i].toLowerCase();
+          errorKeys[key] = (errorKeys[key] || 0) + 1;
+        }
+      }
+
       const result: TypingResult = {
         date: new Date(),
         mode: 'train',
         wpm: metrics.wpm,
         accuracy: metrics.accuracy,
         duration,
+        errorKeys: Object.keys(errorKeys).length > 0 ? errorKeys : undefined,
       };
       db.results.add(result);
       setIsFinished(true);

@@ -1,0 +1,51 @@
+.stats-page {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .card {
+    background: #16213e;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00d2ff;
+  }
+
+  .card-label {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+  .chart-container {
+    background: #16213e;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .heatmap-container {
+    background: #16213e;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .heatmap-container h2,
+  .chart-container h2 {
+    margin-top: 0;
+  }

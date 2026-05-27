@@ -1,0 +1,31 @@
+.keyboard-heatmap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 20px 0;
+  }
+
+  .heatmap-key {
+    transition: background-color 0.3s;
+    cursor: help;
+  }
+
+  .heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+  }
+
+  .legend-label {
+    color: #aaa;
+    font-size: 0.85rem;
+  }
+
+  .legend-gradient {
+    width: 120px;
+    height: 10px;
+    background: linear-gradient(to right, rgb(0, 255, 0), rgb(255, 0, 0));
+    border-radius: 5px;
+  }
