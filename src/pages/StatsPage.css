@@ -40,9 +40,14 @@
 
   .heatmap-container {
     background: #16213e;
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 10px;
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;      /* убираем скролл */
+    max-width: 100%;
   }
 
   .heatmap-container h2,

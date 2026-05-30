@@ -1,31 +1,58 @@
 .keyboard-heatmap {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin: 20px 0;
-  }
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;                    /* было 4px */
+  background: #16213e;
+  padding: 18px;               /* было 12px */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
 
-  .heatmap-key {
-    transition: background-color 0.3s;
-    cursor: help;
-  }
+.keyboard-row {
+  display: flex;
+  gap: 6px;                    /* было 4px */
+  justify-content: center;
+  flex-wrap: nowrap;
+}
 
-  .heatmap-legend {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 15px;
-    justify-content: center;
-  }
+.heatmap-key {
+  min-width: 36px;             /* было 24px */
+  padding: 9px 12px;           /* было 6px 8px */
+  font-size: 1.2rem;           /* было 0.8rem */
+  border-radius: 4px;
+  text-align: center;
+  color: #e0e0e0;
+  font-weight: bold;
+  box-shadow: 0 2px 0 #000;
+  transition: background-color 0.3s;
+  cursor: help;
+  box-sizing: border-box;
+}
 
-  .legend-label {
-    color: #aaa;
-    font-size: 0.85rem;
-  }
+.wide {
+  min-width: 63px;             /* было 42px, пропорционально */
+}
 
-  .legend-gradient {
-    width: 120px;
-    height: 10px;
-    background: linear-gradient(to right, rgb(0, 255, 0), rgb(255, 0, 0));
-    border-radius: 5px;
-  }
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.legend-label {
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.legend-gradient {
+  width: 120px;
+  height: 10px;
+  background: linear-gradient(to right, rgb(0, 255, 0), rgb(255, 0, 0));
+  border-radius: 5px;
+}

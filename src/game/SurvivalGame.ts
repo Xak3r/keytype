@@ -49,6 +49,8 @@ const TARGET_SPAWN_PROB = 0.0022;
 const SPEED_RAMP_TIME = 240;
 const SPAWN_RAMP_TIME = 180;
 
+
+
 //const GAME_DURATION_TARGET = 180;   // 3 минуты в секундах
 const SPEED_INCREASE = 0;
 
@@ -71,6 +73,10 @@ export class SurvivalGame {
   private container: HTMLElement;
   private gameContainer?: PIXI.Container;
   private uiContainer?: PIXI.Container;
+
+  private lastSpawnTime: number = 0;
+  private readonly maxSpawnInterval = 4000; // 4 секунды – максимальная пауза
+  private readonly maxWordsOnScreen = 7;    // чтобы не было слишком много блоков
 
   constructor(options: SurvivalGameOptions) {
     this.onGameOver = options.onGameOver;
@@ -99,6 +105,7 @@ export class SurvivalGame {
 
     this.createUI();
     this.startTime = Date.now();
+    this.lastSpawnTime = Date.now();
     this.startGameLoop();
     this.spawnWord();
     this.setupKeyboard();
@@ -232,21 +239,17 @@ export class SurvivalGame {
   private gameLoop = () => {
     if (this.gameOver || !this.app) return;
 
-    // Текущее время игры в секундах
     const elapsed = (Date.now() - this.startTime) / 1000;
 
-    // Прогресс для скорости (от 0 до 1 за SPEED_RAMP_TIME секунд)
+    // Скорость падения
     const speedProgress = Math.min(elapsed / SPEED_RAMP_TIME, 1);
     this.currentSpeed = BASE_SPEED + speedProgress * (TARGET_SPEED - BASE_SPEED);
 
-    // Прогресс для вероятности спавна (от 0 до 1 за SPAWN_RAMP_TIME секунд)
+    // Вероятность спавна
     const spawnProgress = Math.min(elapsed / SPAWN_RAMP_TIME, 1);
     const spawnProb = BASE_SPAWN_PROB + spawnProgress * (TARGET_SPAWN_PROB - BASE_SPAWN_PROB);
 
-    // Дельта времени в секундах
     const dt = this.app.ticker.deltaMS / 1000;
-
-    // Двигаем слова
     for (const word of this.words) {
       if (!word.active) continue;
       word.container.y += this.currentSpeed * dt;
@@ -255,9 +258,16 @@ export class SurvivalGame {
       }
     }
 
-    // Спавн новых слов
-    if (Math.random() < spawnProb) {
+    // Принудительный спавн при долгом затишье
+    const timeSinceLastSpawn = Date.now() - this.lastSpawnTime;
+    if (timeSinceLastSpawn >= this.maxSpawnInterval && this.words.length < this.maxWordsOnScreen) {
       this.spawnWord();
+      this.lastSpawnTime = Date.now();
+    }
+    // Обычный случайный спавн
+    else if (Math.random() < spawnProb && this.words.length < this.maxWordsOnScreen) {
+      this.spawnWord();
+      this.lastSpawnTime = Date.now();
     }
 
     // Обновление интерфейса

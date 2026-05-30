@@ -10,7 +10,7 @@ const rows = [
   ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
   ['Caps', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter'],
   ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'Shift'],
-  ['Ctrl', 'Alt', 'Space', 'Alt', 'Ctrl'],
+  ['Ctrl', 'Alt', ' ', 'Alt', 'Ctrl'],   // ← пробел теперь ' '
 ];
 
 const Keyboard: React.FC<KeyboardProps> = ({ activeKey, expectedKey }) => {
@@ -27,7 +27,7 @@ const Keyboard: React.FC<KeyboardProps> = ({ activeKey, expectedKey }) => {
             if (isExpected && !isActive) className += ' expected';
             return (
               <div key={`${rowIndex}-${key}-${keyIndex}`} className={className}>
-                {key === 'Space' ? '␣' : key}
+                {key === ' ' ? '␣' : key}
               </div>
             );
           })}

@@ -105,3 +105,25 @@
     color: #fff;
     font-size: 2rem;
   }
+
+  .result-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .result-buttons button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    background: #00d2ff;
+    color: #000;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .result-buttons button:hover {
+    background: #7b2ff7;
+    color: #fff;
+  }
