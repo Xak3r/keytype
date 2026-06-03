@@ -1,73 +1,75 @@
-# React + TypeScript + Vite
+# KeyType – Тренажёр слепой печати с игровыми механиками
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Одностраничное веб-приложение для обучения слепому десятипальцевому методу печати.
+Сочетает классическую тренировку с игровым режимом «Выживание» и детальной статистикой прогресса.
+Все данные хранятся локально в браузере пользователя – никакой регистрации и серверной части.
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite)
+![PixiJS](https://img.shields.io/badge/PixiJS-8-e6374a?logo=pixijs)
+![Dexie](https://img.shields.io/badge/Dexie.js-4-00b894)
+![Chart.js](https://img.shields.io/badge/Chart.js-4-FF6384?logo=chartdotjs)
+![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-222?logo=github)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## О проекте
 
-## React Compiler
+KeyType разработан в рамках курсовой работы по дисциплине «Технология разработки программного обеспечения».
+Цель – создать интерактивный инструмент, который превращает рутинную практику набора текста в увлекательный процесс, поддерживающий мотивацию пользователя.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Приложение работает полностью на стороне клиента и не требует установки. Достаточно открыть страницу в современном браузере на компьютере с физической клавиатурой.
 
-## Expanding the ESLint configuration
+## Функциональность
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🅰️ Тренировка
+- Случайные предложения (36 вариантов) с буквами, цифрами и спецсимволами.
+- Подсветка правильно/неправильно набранных символов и текущего ожидаемого символа.
+- Виртуальная клавиатура с подсветкой нажатой и ожидаемой клавиш.
+- Расчёт скорости (зн/мин) и точности (%) в реальном времени.
+- Автоматический переход к следующему предложению после завершения.
+- Сохранение результата (включая карту ошибок по клавишам) в локальную БД.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🎮 Выживание (игровой режим)
+- Падающие блоки со словами (словарь из 100 слов разной сложности).
+- Ввод слова и подтверждение по Enter.
+- Очки зависят от длины слова по системе множителей.
+- Динамический рост сложности: скорость падения и частота появления увеличиваются со временем.
+- Механика жизней, таймер выживания, принудительный спавн для избежания пауз.
+- Итоговый счёт сохраняется в статистику.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 📊 Статистика
+- Сводные показатели: общее число сессий, средняя скорость/точность, общее время практики.
+- График прогресса (скорость + точность) по всем сессиям (Chart.js).
+- Тепловая карта клавиатуры: каждая клавиша окрашена по частоте ошибок.
+- Данные читаются напрямую из IndexedDB, всегда актуальны.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Хранение данных
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Вся история тренировок и игр сохраняется в **IndexedDB** браузера с помощью библиотеки **Dexie.js**.
+Структура записи:
+- режим (`train` / `survival`)
+- дата и время
+- скорость (WPM)
+- точность (%)
+- продолжительность (сек)
+- карта ошибок по клавишам (только для тренировок)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Данные не покидают ваш компьютер и не передаются на сервер.
+При очистке кэша браузера прогресс может быть утерян – в будущем планируется функция экспорта/импорта.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Технологический стек
+
+| Компонент | Технология |
+|-----------|------------|
+| Язык | TypeScript 5 |
+| UI-фреймворк | React 18 |
+| Сборщик | Vite 5 |
+| Игровая графика | PixiJS 8 (WebGL) |
+| Локальная БД | Dexie.js 4 (надстройка над IndexedDB) |
+| Графики | Chart.js 4 + react-chartjs-2 |
+| Маршрутизация | React Router 6 (HashRouter) |
+| Деплой | GitHub Pages (автоматически через Actions) |
+
+## Запуск сайта
+
+ - https://xak3r.github.io/keytype/
